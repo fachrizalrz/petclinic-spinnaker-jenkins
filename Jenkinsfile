@@ -41,7 +41,7 @@ pipeline {
                 script {
                     GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
                     SHORT_COMMIT = "${GIT_COMMIT_HASH[0..7]}"
-                    docker.withRegistry('https://139956247214.dkr.ecr.ap-southeast-1.amazonaws.com', 'ecr:ap-southeast-1:fvolusus-ecr') {
+                     docker.withRegistry('https://registry.hub.docker.com', 'DockerHub') {
                         app.push("$SHORT_COMMIT")
                         app.push("latest")
                     }
