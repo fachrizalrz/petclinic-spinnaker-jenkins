@@ -4,6 +4,19 @@ pipeline {
         pollSCM "* * * * *"
        }
     stages {
+        stage('SAST FortiDevSec') {
+            when {
+                branch 'master'
+            }
+            steps {
+                echo '=== Scanning the code using FortiDevSec ==='
+                script {
+                    docker pull registry.fortidevsec.forticloud.com/fdevsec_sast:latest
+                    docker run --rm --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest
+                    }
+                }
+            }
+        }
         stage('Build Application') { 
             steps {
                 echo '=== Building Petclinic Application ==='
